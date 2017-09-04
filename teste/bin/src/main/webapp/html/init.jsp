@@ -12,7 +12,6 @@
 <theme:defineObjects/> 
 
 <portlet:actionURL name="imprimir" var="imprimirURL"></portlet:actionURL>
-<liferay-portlet:actionURL portletConfiguration="true" var="configurationURL" />
 <portlet:resourceURL var="imprimirAjaxUrl"></portlet:resourceURL>
 
 <script>
@@ -89,17 +88,13 @@ function imprimir(){
 		type:'post',
 		dataType: 'json',
 		success: function(data){
-			for(i = 0;i<data.length;i++){
-				$('#pnombre').append(' '+ data[i]['nome']);
-				$('#ptexto').append(' '+ data[i]['texto']);
-				$('#ptime').append(' '+ data[i]['time']);
-				$('#psexo').append(' '+ data[i]['sexo']);
-				$('#psenha').append(' '+ data[i]['senha']);
-				$('#pliferay').append(' '+ data[i]['liferay']);
-				$('#pjava').append(' '+ data[i]['java']);
-				$('#pconf').append(' '+ data[i]['conf']);
-				$('#pdescricao').append(' '+ data[i]['descricao']);	
-			}
+			$('#pnombre').html(data['nome']);
+			$('#ptexto').html(data['texto']);
+			$('#ptime').html(data['time']);
+			$('#psexo').html(data['sexo']);
+			$('#psenha').html(data['senha']);
+			$('#pliferay').html(data['liferay']);
+			$('#pjava').html(data['java']);
 		}
 	});
 }
