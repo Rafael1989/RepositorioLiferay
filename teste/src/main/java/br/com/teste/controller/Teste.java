@@ -38,6 +38,10 @@ import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -115,8 +119,28 @@ public class Teste extends MVCPortlet {
 			//JASPER
 			//ServletResponseUtil.sendFile(request, response, "teste.pdf", bytes,	"application/download");
 			//DOWNLOAD ARQUIVO
-			ServletResponseUtil.sendFile(request, response, "arquivo.txt",Files.readAllBytes(file.toPath()) ,	"text/html");
-		} catch (IOException e) {
+			//ServletResponseUtil.sendFile(request, response, "arquivo.txt",Files.readAllBytes(file.toPath()) ,	"text/html");
+			//RENDERIZACAO IMAGEM
+			//ServletResponseUtil.sendFile(request, response, "arquivo.jpg",Files.readAllBytes(file.toPath()) ,	"image/jpeg");
+			//EXCELL
+			Workbook workbook = Workbook.getWorkbook(file);
+			Sheet sheet = workbook.getSheet(0);
+			Cell a1 = sheet.getCell(0,0);
+			Cell a2 = sheet.getCell(0,1);
+			Cell a3 = sheet.getCell(0,2);
+			Cell a4 = sheet.getCell(0,3);
+			Cell a5 = sheet.getCell(0,4);
+			Cell a6 = sheet.getCell(0,5);
+			Cell a7 = sheet.getCell(0,6);
+			Cell a8 = sheet.getCell(0,7);
+			Cell a9 = sheet.getCell(0,8);
+			Cell a10 = sheet.getCell(0,9);
+			Cell a11 = sheet.getCell(0,10);
+			
+			System.out.println(a1.getContents());
+			System.out.println(a2.getContents());
+			
+		} catch (IOException | BiffException e) {
 			e.printStackTrace();
 		}
 		actionRequest.setAttribute("nome", nome);
