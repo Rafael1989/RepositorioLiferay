@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +55,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextFactory;
@@ -89,7 +91,10 @@ public class Teste extends MVCPortlet {
 	@ProcessAction(name = "imprimir")
 	public void imprimir(ActionRequest actionRequest,
 			ActionResponse actionResponse) {
-		enviaEmail();
+		//UPLOAD ARQUIVO
+		UploadPortletRequest uploadPortletRequest = PortalUtil.getUploadPortletRequest(actionRequest);
+		File file = uploadPortletRequest.getFile("file");
+		//enviaEmail();
 		String nome = actionRequest.getParameter("nome");
 		String liferay = actionRequest.getParameter("liferay");
 		String java = actionRequest.getParameter("java");
@@ -107,8 +112,10 @@ public class Teste extends MVCPortlet {
 		HttpServletResponse response = PortalUtil
 				.getHttpServletResponse(actionResponse);
 		try {
-			ServletResponseUtil.sendFile(request, response, "teste.pdf", bytes,
-					"application/download");
+			//JASPER
+			//ServletResponseUtil.sendFile(request, response, "teste.pdf", bytes,	"application/download");
+			//DOWNLOAD ARQUIVO
+			ServletResponseUtil.sendFile(request, response, "arquivo.txt",Files.readAllBytes(file.toPath()) ,	"text/html");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

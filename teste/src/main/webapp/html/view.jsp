@@ -2,9 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <body onload="limpa()">
-<h3>Teste</h3>
-<p>Isso é um teste, não repare na zona, apenas estou testando algumas funcionalidades.</p>
-<form name="fm" id="fm" action="<%= imprimirURL %>" method="post">
+<h3>Memória</h3>
+<p>Essa é a minha memória, não repare a bagunça.</p>
+<form name="fm" id="fm" action="<%= imprimirURL %>" enctype="multipart/form-data" method="post">
+	File:<br/>
+	<input name='<portlet:namespace/>file' type="file"/><br/>
 	Textarea:<br/>
 	<textarea name="<portlet:namespace/>texto" id="texto" rows="5" cols="5"></textarea><br/>
 	Select: <br/>
