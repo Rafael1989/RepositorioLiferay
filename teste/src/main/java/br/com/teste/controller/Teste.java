@@ -1,8 +1,13 @@
 package br.com.teste.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -13,6 +18,14 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,11 +36,13 @@ import br.com.gndi.liferay.service.ContratoLocalServiceUtil;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextFactory;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.dynamicdatalists.model.DDLRecord;
 import com.liferay.portlet.dynamicdatalists.service.DDLRecordLocalServiceUtil;
 import com.liferay.portlet.journal.model.JournalArticle;
@@ -37,6 +52,16 @@ import com.liferay.portlet.journalcontent.util.JournalContentUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 public class Teste extends MVCPortlet {
+	
+	private String descricao;
+	
+	public String getDescricao() {
+		return descricao;
+	}
+	
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 	
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)
@@ -56,6 +81,17 @@ public class Teste extends MVCPortlet {
 		String time = actionRequest.getParameter("time");
 		String texto = actionRequest.getParameter("texto");
 		SessionMessages.add(actionRequest, "");
+		Teste teste = new Teste();
+		teste.setDescricao("teste da descricao");
+		//JASPER
+		byte[] bytes = montaPDF(actionRequest, "teste.jasper", teste);
+		HttpServletRequest request = PortalUtil.getHttpServletRequest(actionRequest);
+		HttpServletResponse response = PortalUtil.getHttpServletResponse(actionResponse);
+		try {
+			ServletResponseUtil.sendFile(request, response, "teste.pdf", bytes, "application/download");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		actionRequest.setAttribute("nome", nome);
 		actionRequest.setAttribute("liferay", liferay);
 		actionRequest.setAttribute("java", java);
@@ -127,6 +163,41 @@ public class Teste extends MVCPortlet {
 		PrintWriter out = resourceResponse.getWriter();
 		out.print(jsonArray);
 		out.flush();
+	}
+	
+	//JASPER
+	private byte[] montaPDF(ActionRequest actionRequest, String filename, Teste teste) {
+		HttpServletRequest request = PortalUtil.getHttpServletRequest(actionRequest);
+		String reportPath = request.getSession().getServletContext().getRealPath(File.separator);
+		String pathIMG = reportPath + "img" + File.separator;
+		String fileNameReport = "jasper" + File.separator + filename;
+
+		ByteArrayOutputStream reportArrayOutputStream = new ByteArrayOutputStream();
+		Map<String, Object> param = new HashMap<String, Object>();
+		byte[] report = null;
+
+		param.put("P_DESCRICAO", teste.getDescricao());
+		param.put("REPORT_PATH", reportPath + "jrxml");
+		param.put("SEPARATOR", File.separator);
+		param.put("IMAGE_PATH", pathIMG);
+
+		try {
+		    //JasperReport reportCompiler = JasperCompileManager.compileReport(reportPath + fileNameReport);
+		    
+			JRDataSource datasource = new JRBeanCollectionDataSource(Arrays.asList(teste), true);
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath + fileNameReport, param, datasource);
+
+			if (jasperPrint.getPages().size() > 0) {
+				// exporta para pdf
+				JasperExportManager.exportReportToPdfStream(jasperPrint, reportArrayOutputStream);
+
+				report = reportArrayOutputStream.toByteArray();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return report;
 	}
 
 }

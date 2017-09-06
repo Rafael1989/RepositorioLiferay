@@ -28,8 +28,8 @@
 	Text:<br/>
 	<input type="text" name="<portlet:namespace/>nome" id="nome" /><br/>
 	Submit:<br/>
-	<!--<input type="submit" value="Imprimir"/>-->
-	<input type="button" value="Imprimir" onclick="imprimir()"> 
+	<input type="submit" value="Imprimir"/>
+	<!-- <input type="button" value="Imprimir" onclick="imprimir()"> --> 
 </form>
 ${pergunta}
 <p id="pnombre"></p>
