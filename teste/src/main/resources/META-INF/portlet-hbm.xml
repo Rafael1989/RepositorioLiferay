@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="br.com.gndi.liferay.model.Contrato" />
+	<class name="br.com.gndi.liferay.model.impl.ContratoImpl" table="NI_Contrato">
+		<cache usage="read-write" />
+		<id name="contratoId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="unidade" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="grupoContrato" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contrato" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="nomeContrato" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="subContrato" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="nomeSubContrato" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="codigoPlano" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="nomePlano" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="email1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="email2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="email3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="email4" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="email5" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="resposta" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="dataEnvio" type="org.hibernate.type.TimestampType" />
+		<property name="dataResposta" type="org.hibernate.type.TimestampType" />
+		<property name="dataCadastro" type="org.hibernate.type.TimestampType" />
+	</class>
+</hibernate-mapping>

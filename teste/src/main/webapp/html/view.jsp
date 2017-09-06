@@ -41,6 +41,8 @@ ${pergunta}
 <p id="pjava"></p>
 <p id="pconf"></p>
 <p id="pdescricao"></p>
+<p id="pcontrato"></p>
+<p id="pcontratoModificado"></p>
 <c:if test="${not empty nome}">
 <p>Meu nome é ${nome}.</p>
 </c:if>

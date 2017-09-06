@@ -3,7 +3,7 @@
 
 <liferay-portlet-app>
 	<portlet>
-		<portlet-name>teste</portlet-name>
+		<portlet-name>teste-portlet</portlet-name>
 		<icon>/icon.png</icon>
 		<configuration-action-class>br.com.teste.configuration.TesteConfiguration</configuration-action-class>
 		<header-portlet-css>/css/main.css</header-portlet-css>

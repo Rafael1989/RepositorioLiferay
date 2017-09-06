@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="br.com.gndi.liferay.model.Contrato">
+		<field name="contratoId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="unidade" type="String" />
+		<field name="grupoContrato" type="String" />
+		<field name="contrato" type="String" />
+		<field name="nomeContrato" type="String" />
+		<field name="subContrato" type="String" />
+		<field name="nomeSubContrato" type="String" />
+		<field name="codigoPlano" type="String" />
+		<field name="nomePlano" type="String" />
+		<field name="email" type="String" />
+		<field name="email1" type="String" />
+		<field name="email2" type="String" />
+		<field name="email3" type="String" />
+		<field name="email4" type="String" />
+		<field name="email5" type="String" />
+		<field name="resposta" type="String" />
+		<field name="dataEnvio" type="Date" />
+		<field name="dataResposta" type="Date" />
+		<field name="dataCadastro" type="Date" />
+	</model>
+</model-hints>

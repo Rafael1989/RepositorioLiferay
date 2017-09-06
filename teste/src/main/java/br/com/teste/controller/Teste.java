@@ -17,9 +17,15 @@ import javax.portlet.ResourceResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import br.com.gndi.liferay.model.Contrato;
+import br.com.gndi.liferay.model.ContratoClp;
+import br.com.gndi.liferay.service.ContratoLocalServiceUtil;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.service.ServiceContext;
+import com.liferay.portal.service.ServiceContextFactory;
 import com.liferay.portlet.dynamicdatalists.model.DDLRecord;
 import com.liferay.portlet.dynamicdatalists.service.DDLRecordLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
@@ -68,7 +74,19 @@ public class Teste extends MVCPortlet {
 		String liferay = resourceRequest.getParameter("liferay");
 		String java = resourceRequest.getParameter("java");
 		
+		
 		try {
+			ContratoClp contratoClp = new ContratoClp();
+			contratoClp.setNomeContrato("testeTrintaUm");
+			contratoClp.setContratoId(1L);
+			ServiceContext serviceContext = ServiceContextFactory.getInstance(Contrato.class.getName(),resourceRequest);
+			ContratoLocalServiceUtil.adicionaContratoEmpresa(contratoClp, serviceContext);
+			ContratoLocalServiceUtil.removeContratoEmpresa(contratoClp, serviceContext);
+			List<Contrato> contratos = ContratoLocalServiceUtil.buscaPorContrato("testeTrintaUm");
+			contratoClp.setNomeContrato("teste2");
+			ContratoLocalServiceUtil.updateContrato(contratoClp);
+			List<Contrato> contratosModificados = ContratoLocalServiceUtil.buscaPorContrato("teste2");
+			
 			List<DDLRecord> records = DDLRecordLocalServiceUtil.getRecords(Long.parseLong(conf));
 			for(DDLRecord ddlRecord:records){
 				org.json.JSONObject jsonObject = new JSONObject();
@@ -80,6 +98,8 @@ public class Teste extends MVCPortlet {
 				jsonObject.put("liferay", liferay);
 				jsonObject.put("java", java);
 				jsonObject.put("conf", conf);
+				jsonObject.put("contrato", (!contratos.isEmpty())?contratos.get(0).getNomeContrato():"");
+				jsonObject.put("contratoModificado", contratosModificados.get(0).getNomeContrato());
 				descricao = String.valueOf(ddlRecord.getField("descricao").getValue());
 				jsonObject.put("descricao", descricao);
 				jsonArray.put(jsonObject);

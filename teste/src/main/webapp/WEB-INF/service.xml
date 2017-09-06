@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_0_0.dtd">
+<service-builder package-path="br.com.gndi.liferay">
+	<author>Rafael</author>
+	<namespace>NI</namespace>
+
+	<entity name="Contrato" local-service="true" remote-service="false" >
+	
+		<!-- PK fields -->
+
+		<column name="contratoId" type="long" primary="true" />
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Other fields -->
+	
+		<column name="unidade" type="String"/>
+		<column name="grupoContrato" type="String" />
+		<column name="contrato" type="String" />
+		<column name="nomeContrato" type="String" />
+		<column name="subContrato" type="String" />
+		<column name="nomeSubContrato" type="String" />
+		<column name="codigoPlano" type="String" />
+		<column name="nomePlano" type="String"/>
+		<column name="email" type="String"/>
+		<column name="email1" type="String"/>
+		<column name="email2" type="String"/>
+		<column name="email3" type="String"/>
+		<column name="email4" type="String"/>
+		<column name="email5" type="String"/>
+		<column name="resposta" type="String"/>
+		<column name="dataEnvio" type="Date"/>
+		<column name="dataResposta" type="Date"/>
+		<column name="dataCadastro" type="Date"/>
+		
+		<!-- Order -->
+		
+		<order by="asc">
+			<order-column name="nomePlano" />
+		</order>
+		
+		<!-- Finder methods -->
+		
+		<finder name="Email" return-type="Collection">
+			<finder-column name="email" comparator="LIKE" case-sensitive="false"/>
+		</finder>
+		
+		<finder name="Empresa" return-type="Collection">
+			<finder-column name="unidade" comparator="LIKE" case-sensitive="false"/>
+		</finder>
+		
+		<finder name="Contrato" return-type="Collection">
+			<finder-column name="nomeContrato" comparator="LIKE" case-sensitive="false"/>
+		</finder>
+		
+		<!-- References -->
+
+		<reference package-path="com.liferay.portlet.asset" entity="AssetEntry" />
+		<reference package-path="com.liferay.portlet.asset" entity="AssetTag" />
+		
+	</entity>
+	
+</service-builder>

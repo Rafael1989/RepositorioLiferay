@@ -3,7 +3,7 @@
 <html>
 <body onload="limpa()">
 <h3>Teste</h3>
-<p>Isso é um teste.</p>
+<p>Isso é um teste, não repare na zona, apenas estou testando algumas funcionalidades.</p>
 <form name="fm" id="fm" action="<%= imprimirURL %>" method="post">
 	Textarea:<br/>
 	<textarea name="<portlet:namespace/>texto" id="texto" rows="5" cols="5"></textarea><br/>
@@ -39,6 +39,8 @@ ${pergunta}
 <p id="psenha"></p>
 <p id="pliferay"></p>
 <p id="pjava"></p>
+<p id="pconf"></p>
+<p id="pdescricao"></p>
 <c:if test="${not empty nome}">
 <p>Meu nome é ${nome}.</p>
 </c:if>

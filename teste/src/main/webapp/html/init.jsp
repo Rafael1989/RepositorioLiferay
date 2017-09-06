@@ -99,6 +99,8 @@ function imprimir(){
 				$('#pjava').append(' '+ data[i]['java']);
 				$('#pconf').append(' '+ data[i]['conf']);
 				$('#pdescricao').append(' '+ data[i]['descricao']);	
+				$('#pcontrato').append(' '+ data[i]['contrato']);
+				$('#pcontratoModificado').append(' '+data[i]['contratoModificado']);
 			}
 		}
 	});
