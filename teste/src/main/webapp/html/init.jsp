@@ -101,6 +101,7 @@ function imprimir(){
 				$('#pdescricao').append(' '+ data[i]['descricao']);	
 				$('#pcontrato').append(' '+ data[i]['contrato']);
 				$('#pcontratoModificado').append(' '+data[i]['contratoModificado']);
+				$('#pwebcontent').append(' '+data[i]['webcontent']);
 			}
 		}
 	});

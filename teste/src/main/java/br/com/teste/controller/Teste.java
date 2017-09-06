@@ -24,10 +24,16 @@ import br.com.gndi.liferay.service.ContratoLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextFactory;
+import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portlet.dynamicdatalists.model.DDLRecord;
 import com.liferay.portlet.dynamicdatalists.service.DDLRecordLocalServiceUtil;
+import com.liferay.portlet.journal.model.JournalArticle;
+import com.liferay.portlet.journal.model.JournalArticleDisplay;
+import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portlet.journalcontent.util.JournalContentUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 public class Teste extends MVCPortlet {
@@ -62,6 +68,7 @@ public class Teste extends MVCPortlet {
 	@Override
 	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws IOException, PortletException {
+		//PREFERENCE
 		PortletPreferences prefs = resourceRequest.getPreferences();
 		String conf = prefs.getValue("texto", "");
 		String descricao = null;
@@ -76,6 +83,7 @@ public class Teste extends MVCPortlet {
 		
 		
 		try {
+			//SERVICE BUILDER
 			ContratoClp contratoClp = new ContratoClp();
 			contratoClp.setNomeContrato("testeTrintaUm");
 			contratoClp.setContratoId(1L);
@@ -86,7 +94,13 @@ public class Teste extends MVCPortlet {
 			contratoClp.setNomeContrato("teste2");
 			ContratoLocalServiceUtil.updateContrato(contratoClp);
 			List<Contrato> contratosModificados = ContratoLocalServiceUtil.buscaPorContrato("teste2");
-			
+			//WEB CONTENT
+			ThemeDisplay themeDisplay = (ThemeDisplay)resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
+			JournalArticle journalArticle = JournalArticleLocalServiceUtil.getArticleByUrlTitle(themeDisplay.getScopeGroupId(),"teste");
+			String articleId = journalArticle.getArticleId();
+			JournalArticleDisplay journalArticleDisplay = JournalContentUtil.getDisplay(themeDisplay.getScopeGroupId(), articleId, "", "", themeDisplay);
+			String webContent = journalArticleDisplay.getContent();
+			//LISTA DINAMICA
 			List<DDLRecord> records = DDLRecordLocalServiceUtil.getRecords(Long.parseLong(conf));
 			for(DDLRecord ddlRecord:records){
 				org.json.JSONObject jsonObject = new JSONObject();
@@ -102,6 +116,7 @@ public class Teste extends MVCPortlet {
 				jsonObject.put("contratoModificado", contratosModificados.get(0).getNomeContrato());
 				descricao = String.valueOf(ddlRecord.getField("descricao").getValue());
 				jsonObject.put("descricao", descricao);
+				jsonObject.put("webcontent",webContent);
 				jsonArray.put(jsonObject);
 			}
 		} catch (NumberFormatException | SystemException | PortalException e) {

@@ -43,6 +43,7 @@ ${pergunta}
 <p id="pdescricao"></p>
 <p id="pcontrato"></p>
 <p id="pcontratoModificado"></p>
+<p id="pwebcontent"></p>
 <c:if test="${not empty nome}">
 <p>Meu nome é ${nome}.</p>
 </c:if>
